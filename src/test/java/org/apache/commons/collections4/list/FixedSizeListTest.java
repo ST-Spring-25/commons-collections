@@ -19,6 +19,7 @@ package org.apache.commons.collections4.list;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -137,6 +138,37 @@ public class FixedSizeListTest<E> extends AbstractListTest<E> {
         final List<String> subFixedSizeList = fixedSizeList.subList(1, 1);
         assertNotNull(subFixedSizeList);
         assertEquals(0, subFixedSizeList.size());
+    }
+
+    @Test
+    public void fixedSizeList_IfTryToAddElementWhenFull_ThrowException(){
+        // Arrange
+        FixedSizeList<Integer> l = FixedSizeList.fixedSizeList(
+            new ArrayList<Integer>(){{add(1); add(2); add(3);}});
+        // Assert
+        assert(l.isFull());
+        assertThrowsExactly(UnsupportedOperationException.class, () -> {l.add(4);});
+
+    }
+
+    @Test
+    public void fixedSizeList_IfTryToRemoveAnElement_ThrowException(){
+        // Arrange
+        FixedSizeList<Integer> l = FixedSizeList.fixedSizeList(
+            new ArrayList<Integer>(){{add(1); add(2); add(3);}});
+        // Assert
+        assertThrowsExactly(UnsupportedOperationException.class, () -> {l.remove(1);});
+    }
+
+    @Test
+    public void fixedSizeList_IfTryToChangeAnElement_ElementIsChanged(){
+        // Arrange
+        FixedSizeList<Integer> l = FixedSizeList.fixedSizeList(
+            new ArrayList<Integer>(){{add(1); add(2); add(3);}});
+        // Act
+        l.set(0, 9);
+        // Assert
+        assert(l.contains(9) && !l.contains(1));
     }
 
 }
