@@ -205,4 +205,58 @@ public class GrowthListTest<E> extends AbstractListTest<E> {
         assert(l.size() == 0 && l.getClass().equals(GrowthList.class));
     }
 
+    @Test
+    public void growthListAdd_IfSizeIsSameAsIndexOfNewElement_ThenListGrowsToAccommodate(){
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(0);
+
+        // Act
+        assert(l.size() == 0);
+        l.add(0, 0);
+
+        // Assert
+        assert(l.get(0) == 0 && l.size() == 1);
+    }
+
+    @Test
+    public void growthListAdd_IfElementToAddIsOccupied_PushFirstElement(){
+        
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(1);
+
+        // Act
+        l.add(0, 1);
+        assert(l.get(0) == 1);
+        l.add(0, 99);
+
+        // Assert
+        assert(l.get(0) == 99 && l.get(1) == 1);
+    }
+
+    @Test
+    public void growthListAdd_IfElementToAddIndexIsOutOfRange_GrowList(){
+        
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(1);
+
+        // Act
+        l.add(999, 99);
+
+        // Assert
+        assert(l.get(999) == 99);
+    }
+
+    @Test
+    public void growthListAdd_IfElementIsInNormalSize_AddElement(){
+        
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(999);
+
+        // Act
+        l.add(500, 99);
+
+        // Assert
+        assert(l.get(500) == 99);
+
+    }
 }
