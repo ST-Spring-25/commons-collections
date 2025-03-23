@@ -500,4 +500,33 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
     }
 
 
+    @Test
+    public void circleFIFOAdd_IfQueueIsNotFull_AddElementNormally(){
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(100);
+
+        // Act
+        for(Integer i = 0; i < 100; ++i) q.add(i);
+
+        // Assert
+        assert(q.peek() == 0);
+
+        for (Integer i = 0; i < 99; ++i) q.remove();
+
+        assert(q.peek() == 99);
+    }
+    @Test
+    public void ifCircleFIFOIsFull_AndNewElementAdded_ThenRemoveYoungest(){
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(5);
+
+        // Act
+        //Fill up queue
+        for (Integer i = 0; i < 5; i++) q.add(i);
+        q.add(6);
+
+        // Assert
+        assert(q.isAtFullCapacity() && q.contains(6) && !q.contains(5));
+    }
+
 }
