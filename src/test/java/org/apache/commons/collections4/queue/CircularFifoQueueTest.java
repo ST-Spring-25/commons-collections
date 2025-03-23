@@ -528,5 +528,43 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         // Assert
         assert(q.isAtFullCapacity() && q.contains(6) && !q.contains(5));
     }
+    
+    @Test
+    public void circleFIFOFullness_HasOpenSpots_ThenQueueIsNotFull(){
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(5);
+
+        // Act
+        for (Integer i = 0; i < 4; i++) q.add(i);
+
+        assert(!q.isAtFullCapacity() && !q.isEmpty());
+    }
+
+    @Test
+    public void circleFIFOFullness_HasNoOpenSpots_ThenQueueIsFull(){
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(5);
+
+        // Act
+        for (Integer i = 0; i < 5; i++) q.add(i);
+
+        // Assert
+        assert(q.isAtFullCapacity() && !q.isEmpty());
+    }
+
+    @Test
+    public void circleFIFOFullness_AllElementsAreRemoved_ThenQueueIsCalledEmpty(){
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(5);
+
+        // Act
+        for (Integer i = 0; i < 5; i++) q.add(i);
+        assert(q.isAtFullCapacity());
+
+        for (Integer i = 0; i < 5; i++) q.remove();
+
+        // Assert
+        assert(!q.isAtFullCapacity() && q.isEmpty());
+    }
 
 }
