@@ -19,6 +19,7 @@ package org.apache.commons.collections4.queue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -466,5 +467,37 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
             assertEquals(o1, o2);
         }
     }
+
+    
+    @Test
+    public void circleFIFOCreate_IfSizeLessThanOrEqualTo0_ThrowIllegalArgumentException(){
+        //All together
+        assertThrowsExactly(IllegalArgumentException.class,
+         () ->{CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(0);});
+    }
+
+    @Test
+    public void circleFIFOCreate_IfSizeIs1_CreateQueue(){
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(1);
+
+        // See if the queue was created
+        assert(q.getClass().equals(CircularFifoQueue.class));
+    }
+
+    @Test
+    public void circleFIFOCreate_IfNoSizeGiven_ThenSizeIs32(){
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<>();
+
+        assert(q.maxSize() == 32);
+    }
+
+    @Test
+    public void circleFIFOCreate_IfSizeIsGiven_ThenSizeEqualsParameter(){
+        
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<>(999);
+
+        assert(q.maxSize() == 999);
+    }
+
 
 }
