@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * {@link ListOrderedSet} implementation.
  */
 public class ListOrderedSetTest<E>
-    extends AbstractSetTest<E> {
+        extends AbstractSetTest<E> {
 
     static class A {
 
@@ -100,9 +100,10 @@ public class ListOrderedSetTest<E>
                 () -> assertThrows(NullPointerException.class, () -> ListOrderedSet.listOrderedSet((List<E>) null)),
                 () -> assertThrows(NullPointerException.class, () -> ListOrderedSet.listOrderedSet((Set<E>) null)),
                 () -> assertThrows(NullPointerException.class, () -> ListOrderedSet.listOrderedSet(null, null)),
-                () -> assertThrows(NullPointerException.class, () -> ListOrderedSet.listOrderedSet(new HashSet<>(), null)),
-                () -> assertThrows(NullPointerException.class, () -> ListOrderedSet.listOrderedSet(null, new ArrayList<>()))
-        );
+                () -> assertThrows(NullPointerException.class,
+                        () -> ListOrderedSet.listOrderedSet(new HashSet<>(), null)),
+                () -> assertThrows(NullPointerException.class,
+                        () -> ListOrderedSet.listOrderedSet(null, new ArrayList<>())));
     }
 
     @Test
@@ -155,7 +156,7 @@ public class ListOrderedSetTest<E>
         assertSame(TWO, set.get(2));
 
         list.add(0, (E) THREE); // list = [3,0,2]
-        set.remove(TWO); //  set = [0,1]
+        set.remove(TWO); // set = [0,1]
         set.addAll(1, list);
         assertEquals(4, set.size());
         assertSame(ZERO, set.get(0));
@@ -223,13 +224,13 @@ public class ListOrderedSetTest<E>
 
         for (int i = 0; i < 10; i += 2) {
             assertTrue(set.remove(Integer.toString(i)),
-                       "Must be able to remove int");
+                    "Must be able to remove int");
         }
 
         it = set.iterator();
         for (int i = 1; i < 10; i += 2) {
             assertEquals(Integer.toString(i), it.next(),
-                         "Sequence is wrong after remove ");
+                    "Sequence is wrong after remove ");
         }
 
         for (int i = 0; i < 10; i++) {
@@ -272,15 +273,17 @@ public class ListOrderedSetTest<E>
         assertEquals(Integer.valueOf(0), orderedSet.get(4));
     }
 
-//    public void testCreate() throws Exception {
-//        resetEmpty();
-//        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/ListOrderedSet.emptyCollection.version4.obj");
-//        resetFull();
-//        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/ListOrderedSet.fullCollection.version4.obj");
-//    }
+    // public void testCreate() throws Exception {
+    // resetEmpty();
+    // writeExternalFormToDisk((java.io.Serializable) getCollection(),
+    // "src/test/resources/data/test/ListOrderedSet.emptyCollection.version4.obj");
+    // resetFull();
+    // writeExternalFormToDisk((java.io.Serializable) getCollection(),
+    // "src/test/resources/data/test/ListOrderedSet.fullCollection.version4.obj");
+    // }
 
     @Test
-    public void listOrderedSetCreation_IfSetAndListAreEmpty_ThenCreateListOrderedSet(){
+    public void listOrderedSetCreation_IfSetAndListAreEmpty_ThenCreateListOrderedSet() {
         // Arrange
         List<Integer> l = new ArrayList<Integer>();
         Set<Integer> s = new HashSet<Integer>();
@@ -289,51 +292,67 @@ public class ListOrderedSetTest<E>
         ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);
 
         // Assert
-        assert(los.isEmpty() && los.getClass().equals(ListOrderedSet.class));
+        assert (los.isEmpty() && los.getClass().equals(ListOrderedSet.class));
     }
 
     @Test
-    public void listOrderedSetCreation_IfSetIsNull_ThenThrowException(){
+    public void listOrderedSetCreation_IfSetIsNull_ThenThrowException() {
         // Arrange
         List<Integer> l = new ArrayList<Integer>();
         Set<Integer> s = null;
 
         // Assert
-        assertThrowsExactly(NullPointerException.class, 
-        () -> {ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);});
+        assertThrowsExactly(NullPointerException.class,
+                () -> {
+                    ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);
+                });
     }
 
     @Test
-    public void listOrderedSetCreation_IfListIsNull_ThenThrowException(){
+    public void listOrderedSetCreation_IfListIsNull_ThenThrowException() {
         // Arrange
         List<Integer> l = null;
         Set<Integer> s = new HashSet<Integer>();
 
         // Assert
-        assertThrowsExactly(NullPointerException.class, 
-        () -> {ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);});
+        assertThrowsExactly(NullPointerException.class,
+                () -> {
+                    ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);
+                });
     }
 
     @Test
-    public void listOrderedSetCreation_IfSetHasContents_ThenThrowException(){
+    public void listOrderedSetCreation_IfSetHasContents_ThenThrowException() {
         // Arrange
         List<Integer> l = new ArrayList<Integer>();
-        Set<Integer> s = new HashSet<Integer>(){{add(99);}};
+        Set<Integer> s = new HashSet<Integer>() {
+            {
+                add(99);
+            }
+        };
 
         // Assert
-        assertThrowsExactly(IllegalArgumentException.class, 
-        () -> {ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);});
+        assertThrowsExactly(IllegalArgumentException.class,
+                () -> {
+                    ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);
+                });
     }
 
     @Test
-    public void listOrderedSetCreation_IfListHasContents_ThenThrowException(){
+    public void listOrderedSetCreation_IfListHasContents_ThenThrowException() {
         // Arrange
-        List<Integer> l = new ArrayList<Integer>(){{add(99);}};
+        List<Integer> l = new ArrayList<Integer>() {
+            {
+                add(99);
+            }
+        };
         Set<Integer> s = new HashSet<Integer>();
 
         // Assert
-        assertThrowsExactly(IllegalArgumentException.class, 
-        () -> {ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);});
+        assertThrowsExactly(IllegalArgumentException.class,
+                () -> {
+                    ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);
+                });
     }
 
 }

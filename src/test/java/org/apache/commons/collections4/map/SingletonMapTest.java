@@ -106,52 +106,52 @@ public class SingletonMapTest<K, V> extends AbstractOrderedMapTest<K, V> {
         assertTrue(cloned.containsValue(TWO));
     }
 
-//    public BulkTest bulkTestMapIterator() {
-//        return new TestFlatMapIterator();
-//    }
-//
-//    public class TestFlatMapIterator extends AbstractTestOrderedMapIterator {
-//        public TestFlatMapIterator() {
-//            super("TestFlatMapIterator");
-//        }
-//
-//        public Object[] addSetValues() {
-//            return TestSingletonMap.this.getNewSampleValues();
-//        }
-//
-//        public boolean supportsRemove() {
-//            return TestSingletonMap.this.isRemoveSupported();
-//        }
-//
-//        public boolean supportsSetValue() {
-//            return TestSingletonMap.this.isSetValueSupported();
-//        }
-//
-//        public MapIterator makeEmptyMapIterator() {
-//            resetEmpty();
-//            return ((Flat3Map) TestSingletonMap.this.map).mapIterator();
-//        }
-//
-//        public MapIterator makeFullMapIterator() {
-//            resetFull();
-//            return ((Flat3Map) TestSingletonMap.this.map).mapIterator();
-//        }
-//
-//        public Map getMap() {
-//            // assumes makeFullMapIterator() called first
-//            return TestSingletonMap.this.map;
-//        }
-//
-//        public Map getConfirmedMap() {
-//            // assumes makeFullMapIterator() called first
-//            return TestSingletonMap.this.confirmed;
-//        }
-//
-//        public void verify() {
-//            super.verify();
-//            TestSingletonMap.this.verify();
-//        }
-//    }
+    // public BulkTest bulkTestMapIterator() {
+    // return new TestFlatMapIterator();
+    // }
+    //
+    // public class TestFlatMapIterator extends AbstractTestOrderedMapIterator {
+    // public TestFlatMapIterator() {
+    // super("TestFlatMapIterator");
+    // }
+    //
+    // public Object[] addSetValues() {
+    // return TestSingletonMap.this.getNewSampleValues();
+    // }
+    //
+    // public boolean supportsRemove() {
+    // return TestSingletonMap.this.isRemoveSupported();
+    // }
+    //
+    // public boolean supportsSetValue() {
+    // return TestSingletonMap.this.isSetValueSupported();
+    // }
+    //
+    // public MapIterator makeEmptyMapIterator() {
+    // resetEmpty();
+    // return ((Flat3Map) TestSingletonMap.this.map).mapIterator();
+    // }
+    //
+    // public MapIterator makeFullMapIterator() {
+    // resetFull();
+    // return ((Flat3Map) TestSingletonMap.this.map).mapIterator();
+    // }
+    //
+    // public Map getMap() {
+    // // assumes makeFullMapIterator() called first
+    // return TestSingletonMap.this.map;
+    // }
+    //
+    // public Map getConfirmedMap() {
+    // // assumes makeFullMapIterator() called first
+    // return TestSingletonMap.this.confirmed;
+    // }
+    //
+    // public void verify() {
+    // super.verify();
+    // TestSingletonMap.this.verify();
+    // }
+    // }
 
     @Test
     public void testKeyValue() {
@@ -162,20 +162,19 @@ public class SingletonMapTest<K, V> extends AbstractOrderedMapTest<K, V> {
         assertInstanceOf(KeyValue.class, map);
     }
 
-//    public void testCreate() throws Exception {
-//        resetEmpty();
-//        writeExternalFormToDisk(
-//            (java.io.Serializable) map,
-//            "src/test/resources/data/test/SingletonMap.emptyCollection.version4.obj");
-//        resetFull();
-//        writeExternalFormToDisk(
-//            (java.io.Serializable) map,
-//            "src/test/resources/data/test/SingletonMap.fullCollection.version4.obj");
-//    }
-
+    // public void testCreate() throws Exception {
+    // resetEmpty();
+    // writeExternalFormToDisk(
+    // (java.io.Serializable) map,
+    // "src/test/resources/data/test/SingletonMap.emptyCollection.version4.obj");
+    // resetFull();
+    // writeExternalFormToDisk(
+    // (java.io.Serializable) map,
+    // "src/test/resources/data/test/SingletonMap.fullCollection.version4.obj");
+    // }
 
     @Test
-    public void singletonMapEqual_IfSingletonAndMapBothSize1WithSameKeyValuePair_ThenTrue(){
+    public void singletonMapEqual_IfSingletonAndMapBothSize1WithSameKeyValuePair_ThenTrue() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
         HashMap<String, Integer> map = new HashMap<String, Integer>();
@@ -183,11 +182,11 @@ public class SingletonMapTest<K, V> extends AbstractOrderedMapTest<K, V> {
         map.put("key", 1);
 
         // Assert
-        assert(singleton.equals(map));
+        assert (singleton.equals(map));
     }
-    
+
     @Test
-    public void singletonMapEqual_IfMapIsGreaterThanSize1_ThenFalse(){
+    public void singletonMapEqual_IfMapIsGreaterThanSize1_ThenFalse() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
         HashMap<String, Integer> map = new HashMap<String, Integer>();
@@ -196,40 +195,40 @@ public class SingletonMapTest<K, V> extends AbstractOrderedMapTest<K, V> {
         map.put(null, null);
 
         // Assert
-        assert(!singleton.equals(map));
+        assert (!singleton.equals(map));
     }
 
     @Test
-    public void singletonMapEqual_IfSingletonIsComparedToSelf_ThenTrue(){
+    public void singletonMapEqual_IfSingletonIsComparedToSelf_ThenTrue() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
 
         // Assert
-        assert(singleton.equals(singleton));
+        assert (singleton.equals(singleton));
     }
-    
+
     @Test
-    public void singletonMapEqual_IfBothSingletonButKeyIsDifferent_ThenFalse(){
+    public void singletonMapEqual_IfBothSingletonButKeyIsDifferent_ThenFalse() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
         SingletonMap<String, Integer> map = new SingletonMap<String, Integer>("key ", 1);
 
         // Assert
-        assert(!singleton.equals(map));
+        assert (!singleton.equals(map));
     }
-    
+
     @Test
-    public void singletonMapEqual_IfBothSingletonButValueIsDifferent_ThenFalse(){
+    public void singletonMapEqual_IfBothSingletonButValueIsDifferent_ThenFalse() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
         SingletonMap<String, Integer> map = new SingletonMap<String, Integer>("key", 11);
 
         // Assert
-        assert(!singleton.equals(map));
+        assert (!singleton.equals(map));
     }
 
     @Test
-    public void singletonMapEqual_IfObjectToCompareIsNotMap_ThenFalse(){
+    public void singletonMapEqual_IfObjectToCompareIsNotMap_ThenFalse() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>();
         ArrayList<String> obj = new ArrayList<String>();
@@ -237,20 +236,20 @@ public class SingletonMapTest<K, V> extends AbstractOrderedMapTest<K, V> {
         obj.add(null);
 
         // Assert
-        assert(!singleton.equals(obj));
+        assert (!singleton.equals(obj));
     }
 
     @Test
-    public void singletonMapCreation_IfNoParametersArePassed_ThenKeyAndValueAreNull(){
+    public void singletonMapCreation_IfNoParametersArePassed_ThenKeyAndValueAreNull() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>();
 
         // Assert
-        assert(singleton.getKey() == null && singleton.getValue() == null);
+        assert (singleton.getKey() == null && singleton.getValue() == null);
     }
 
     @Test
-    public void singletonMapCreation_IfKeyIsGivenAndThenValueChanged_Valid(){
+    public void singletonMapCreation_IfKeyIsGivenAndThenValueChanged_Valid() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", null);
 
@@ -258,25 +257,29 @@ public class SingletonMapTest<K, V> extends AbstractOrderedMapTest<K, V> {
         singleton.put("key", 1);
 
         // Assert
-        assert(singleton.get("key") == 1);
+        assert (singleton.get("key") == 1);
     }
 
     @Test
-    public void singletonMapCreation_IfNewKeyValuePassed_ThrowException(){
+    public void singletonMapCreation_IfNewKeyValuePassed_ThrowException() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>();
 
         // Assert
-        assertThrowsExactly(IllegalArgumentException.class, () -> {singleton.put("key", 1);});
+        assertThrowsExactly(IllegalArgumentException.class, () -> {
+            singleton.put("key", 1);
+        });
     }
 
     @Test
-    public void singletonMapCreation_IfNewKeyPassed_ThrowException(){
+    public void singletonMapCreation_IfNewKeyPassed_ThrowException() {
         // Arrange
         SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
 
         // Assert
-        assertThrowsExactly(IllegalArgumentException.class, () -> {singleton.put("new key", null);});
+        assertThrowsExactly(IllegalArgumentException.class, () -> {
+            singleton.put("new key", null);
+        });
     }
 
 }
