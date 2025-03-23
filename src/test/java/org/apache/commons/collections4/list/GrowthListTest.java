@@ -19,6 +19,7 @@ package org.apache.commons.collections4.list;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -169,5 +170,39 @@ public class GrowthListTest<E> extends AbstractListTest<E> {
 //        resetFull();
 //        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/GrowthList.fullCollection.version4.obj");
 //    }
+    
+    @Test
+    public void growthListCreate_IfCreationSizeIs0_ThenSuccessfullyCreate(){
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(0);
+        
+        // Assert
+        assert(l.size() == 0 && l.getClass().equals(GrowthList.class));
+    }
+
+    @Test 
+    public void growthListCreate_IfCreationSizeIsNegative_ThenThrowError(){
+        // Arrange
+        assertThrowsExactly(IllegalArgumentException.class,
+         () -> {GrowthList<Integer> l = new GrowthList<Integer>(-1);});
+    }
+
+    @Test
+    public void growthListCreate_IfCreationSizeIsNotGiven_CreateList(){
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>();
+        
+        // Assert
+        assert(l.size() == 0 && l.getClass().equals(GrowthList.class));
+    }
+
+    @Test
+    public void growthListCreate_IfCapacityIsGiven_(){
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(50);
+        
+        // Assert
+        assert(l.size() == 0 && l.getClass().equals(GrowthList.class));
+    }
 
 }
