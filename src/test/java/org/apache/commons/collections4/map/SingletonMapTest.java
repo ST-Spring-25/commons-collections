@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.collections4.BoundedMap;
@@ -170,5 +171,72 @@ public class SingletonMapTest<K, V> extends AbstractOrderedMapTest<K, V> {
 //            (java.io.Serializable) map,
 //            "src/test/resources/data/test/SingletonMap.fullCollection.version4.obj");
 //    }
+
+
+    @Test
+    public void singletonMapEqual_IfSingletonAndMapBothSize1WithSameKeyValuePair_ThenTrue(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        // Act
+        map.put("key", 1);
+
+        // Assert
+        assert(singleton.equals(map));
+    }
+    
+    @Test
+    public void singletonMapEqual_IfMapIsGreaterThanSize1_ThenFalse(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        // Act
+        map.put("key", 1);
+        map.put(null, null);
+
+        // Assert
+        assert(!singleton.equals(map));
+    }
+
+    @Test
+    public void singletonMapEqual_IfSingletonIsComparedToSelf_ThenTrue(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
+
+        // Assert
+        assert(singleton.equals(singleton));
+    }
+    
+    @Test
+    public void singletonMapEqual_IfBothSingletonButKeyIsDifferent_ThenFalse(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
+        SingletonMap<String, Integer> map = new SingletonMap<String, Integer>("key ", 1);
+
+        // Assert
+        assert(!singleton.equals(map));
+    }
+    
+    @Test
+    public void singletonMapEqual_IfBothSingletonButValueIsDifferent_ThenFalse(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
+        SingletonMap<String, Integer> map = new SingletonMap<String, Integer>("key", 11);
+
+        // Assert
+        assert(!singleton.equals(map));
+    }
+
+    @Test
+    public void singletonMapEqual_IfObjectToCompareIsNotMap_ThenFalse(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>();
+        ArrayList<String> obj = new ArrayList<String>();
+        // Act
+        obj.add(null);
+
+        // Assert
+        assert(!singleton.equals(obj));
+    }
 
 }
