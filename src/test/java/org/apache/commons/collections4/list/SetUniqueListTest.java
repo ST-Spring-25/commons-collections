@@ -666,4 +666,73 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
         }
     }
 
+    @Test
+    public void setUniqueListAdd_IfDoesNotExistInList_ThenAddElement(){
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+            new ArrayList<Integer>(){{add(1);add(2);add(3); add(4); add(5);}});
+
+        // Act
+        sul.add(6);
+        // Assert
+        assert(sul.contains(6) && sul.size() == 6);
+    }
+
+    @Test
+    public void setUniqueListAdd_IfExistsInList_ThenThrowException(){
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+            new ArrayList<Integer>(){{add(1);add(2);add(3); add(4); add(5);}});
+        ArrayList<Integer> compare = new ArrayList<Integer>();
+
+        // Act
+        compare.addAll(sul);
+        sul.add(5);
+
+        // Assert
+        assert(sul.equals(compare));
+    }
+
+    @Test
+    public void setUniqueListAddAll_IfAllCollectionDoesNotExistInList_AddAll(){
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+            new ArrayList<Integer>(){{add(1);add(2);add(3); add(4); add(5);}});
+        ArrayList<Integer> toAdd = new ArrayList<Integer>(){{add(100); add(99); add (98);}};
+
+        // Act
+        sul.addAll(toAdd);
+
+        // Assert
+        assert(sul.containsAll(toAdd));
+    }
+
+    @Test 
+    public void setUniqueListAddAll_IfPartOfCollectionExistsInList_ThenIgnoreAlreadyAdded(){
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+            new ArrayList<Integer>(){{add(1);add(2);add(3); add(4); add(5);}});
+        ArrayList<Integer> toAdd = new ArrayList<Integer>(){{add(100); add(4); add (98);}};
+
+        // Act
+        sul.addAll(toAdd);
+
+        // Assert
+        assert(sul.containsAll(toAdd) && sul.size() == 7);
+    }
+
+    @Test
+    public void setUniqueListAddAll_IfCollectionExistsInList_ThenIgnoreAll(){
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+        new ArrayList<Integer>(){{add(1);add(2);add(3); add(4); add(5);}});
+        ArrayList<Integer> toAdd = new ArrayList<Integer>(){{add(5); add(4); add (1);}};
+        
+        // Act
+        sul.addAll(toAdd);
+        
+        // Assert
+        assert(sul.containsAll(toAdd) && sul.size() == 5);
+    }
+
 }
