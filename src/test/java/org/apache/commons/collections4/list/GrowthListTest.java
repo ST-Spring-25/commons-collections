@@ -19,6 +19,7 @@ package org.apache.commons.collections4.list;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -163,11 +164,103 @@ public class GrowthListTest<E> extends AbstractListTest<E> {
                 "List.set should throw IndexOutOfBoundsException [-1]");
     }
 
-//    public void testCreate() throws Exception {
-//        resetEmpty();
-//        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/GrowthList.emptyCollection.version4.obj");
-//        resetFull();
-//        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/GrowthList.fullCollection.version4.obj");
-//    }
+    // public void testCreate() throws Exception {
+    // resetEmpty();
+    // writeExternalFormToDisk((java.io.Serializable) getCollection(),
+    // "src/test/resources/data/test/GrowthList.emptyCollection.version4.obj");
+    // resetFull();
+    // writeExternalFormToDisk((java.io.Serializable) getCollection(),
+    // "src/test/resources/data/test/GrowthList.fullCollection.version4.obj");
+    // }
 
+    @Test
+    public void growthListCreate_IfCreationSizeIs0_ThenSuccessfullyCreate() {
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(0);
+
+        // Assert
+        assert (l.size() == 0 && l.getClass().equals(GrowthList.class));
+    }
+
+    @Test
+    public void growthListCreate_IfCreationSizeIsNegative_ThenThrowError() {
+        // Arrange
+        assertThrowsExactly(IllegalArgumentException.class,
+                () -> {
+                    GrowthList<Integer> l = new GrowthList<Integer>(-1);
+                });
+    }
+
+    @Test
+    public void growthListCreate_IfCreationSizeIsNotGiven_CreateList() {
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>();
+
+        // Assert
+        assert (l.size() == 0 && l.getClass().equals(GrowthList.class));
+    }
+
+    @Test
+    public void growthListCreate_IfCapacityIsGiven_() {
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(50);
+
+        // Assert
+        assert (l.size() == 0 && l.getClass().equals(GrowthList.class));
+    }
+
+    @Test
+    public void growthListAdd_IfSizeIsSameAsIndexOfNewElement_ThenListGrowsToAccommodate() {
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(0);
+
+        // Act
+        assert (l.size() == 0);
+        l.add(0, 0);
+
+        // Assert
+        assert (l.get(0) == 0 && l.size() == 1);
+    }
+
+    @Test
+    public void growthListAdd_IfElementToAddIsOccupied_PushFirstElement() {
+
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(1);
+
+        // Act
+        l.add(0, 1);
+        assert (l.get(0) == 1);
+        l.add(0, 99);
+
+        // Assert
+        assert (l.get(0) == 99 && l.get(1) == 1);
+    }
+
+    @Test
+    public void growthListAdd_IfElementToAddIndexIsOutOfRange_GrowList() {
+
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(1);
+
+        // Act
+        l.add(999, 99);
+
+        // Assert
+        assert (l.get(999) == 99);
+    }
+
+    @Test
+    public void growthListAdd_IfElementIsInNormalSize_AddElement() {
+
+        // Arrange
+        GrowthList<Integer> l = new GrowthList<Integer>(999);
+
+        // Act
+        l.add(500, 99);
+
+        // Assert
+        assert (l.get(500) == 99);
+
+    }
 }

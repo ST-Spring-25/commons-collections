@@ -19,6 +19,7 @@ package org.apache.commons.collections4.list;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
- * Extension of {@link AbstractListTest} for exercising the {@link FixedSizeList}
+ * Extension of {@link AbstractListTest} for exercising the
+ * {@link FixedSizeList}
  * implementation.
  */
 public class FixedSizeListTest<E> extends AbstractListTest<E> {
@@ -62,12 +64,14 @@ public class FixedSizeListTest<E> extends AbstractListTest<E> {
         return FixedSizeList.fixedSizeList(list);
     }
 
-//    public void testCreate() throws Exception {
-//        resetEmpty();
-//        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/FixedSizeList.emptyCollection.version4.obj");
-//        resetFull();
-//        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/FixedSizeList.fullCollection.version4.obj");
-//    }
+    // public void testCreate() throws Exception {
+    // resetEmpty();
+    // writeExternalFormToDisk((java.io.Serializable) getCollection(),
+    // "src/test/resources/data/test/FixedSizeList.emptyCollection.version4.obj");
+    // resetFull();
+    // writeExternalFormToDisk((java.io.Serializable) getCollection(),
+    // "src/test/resources/data/test/FixedSizeList.fullCollection.version4.obj");
+    // }
 
     @Override
     public List<E> makeObject() {
@@ -137,6 +141,59 @@ public class FixedSizeListTest<E> extends AbstractListTest<E> {
         final List<String> subFixedSizeList = fixedSizeList.subList(1, 1);
         assertNotNull(subFixedSizeList);
         assertEquals(0, subFixedSizeList.size());
+    }
+
+    @Test
+    public void fixedSizeList_IfTryToAddElementWhenFull_ThrowException() {
+        // Arrange
+        FixedSizeList<Integer> l = FixedSizeList.fixedSizeList(
+                new ArrayList<Integer>() {
+                    {
+                        add(1);
+                        add(2);
+                        add(3);
+                    }
+                });
+        // Assert
+        assert (l.isFull());
+        assertThrowsExactly(UnsupportedOperationException.class, () -> {
+            l.add(4);
+        });
+
+    }
+
+    @Test
+    public void fixedSizeList_IfTryToRemoveAnElement_ThrowException() {
+        // Arrange
+        FixedSizeList<Integer> l = FixedSizeList.fixedSizeList(
+                new ArrayList<Integer>() {
+                    {
+                        add(1);
+                        add(2);
+                        add(3);
+                    }
+                });
+        // Assert
+        assertThrowsExactly(UnsupportedOperationException.class, () -> {
+            l.remove(1);
+        });
+    }
+
+    @Test
+    public void fixedSizeList_IfTryToChangeAnElement_ElementIsChanged() {
+        // Arrange
+        FixedSizeList<Integer> l = FixedSizeList.fixedSizeList(
+                new ArrayList<Integer>() {
+                    {
+                        add(1);
+                        add(2);
+                        add(3);
+                    }
+                });
+        // Act
+        l.set(0, 9);
+        // Assert
+        assert (l.contains(9) && !l.contains(1));
     }
 
 }

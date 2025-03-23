@@ -19,6 +19,7 @@ package org.apache.commons.collections4.queue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -54,6 +55,7 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
 
     /**
      * Overridden because CircularFifoQueue isn't fail fast.
+     * 
      * @return false
      */
     @Override
@@ -63,6 +65,7 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
 
     /**
      * Overridden because CircularFifoQueue doesn't allow null elements.
+     * 
      * @return false
      */
     @Override
@@ -299,13 +302,13 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         fifo.add((E) "2");
         fifo.add((E) "3");
         fifo.add((E) "4");
-        fifo.add((E) "5");  // end=0
-        fifo.add((E) "6");  // end=1
-        fifo.add((E) "7");  // end=2
+        fifo.add((E) "5"); // end=0
+        fifo.add((E) "6"); // end=1
+        fifo.add((E) "7"); // end=2
 
         assertEquals("[3, 4, 5, 6, 7]", fifo.toString());
 
-        fifo.remove("4");  // remove element in middle of array, after start
+        fifo.remove("4"); // remove element in middle of array, after start
         assertEquals("[3, 5, 6, 7]", fifo.toString());
     }
 
@@ -318,13 +321,13 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         fifo.add((E) "2");
         fifo.add((E) "3");
         fifo.add((E) "4");
-        fifo.add((E) "5");  // end=0
-        fifo.add((E) "6");  // end=1
-        fifo.add((E) "7");  // end=2
+        fifo.add((E) "5"); // end=0
+        fifo.add((E) "6"); // end=1
+        fifo.add((E) "7"); // end=2
 
         assertEquals("[3, 4, 5, 6, 7]", fifo.toString());
 
-        fifo.remove("5");  // remove element at last pos in array
+        fifo.remove("5"); // remove element at last pos in array
         assertEquals("[3, 4, 6, 7]", fifo.toString());
     }
 
@@ -337,13 +340,13 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         fifo.add((E) "2");
         fifo.add((E) "3");
         fifo.add((E) "4");
-        fifo.add((E) "5");  // end=0
-        fifo.add((E) "6");  // end=1
-        fifo.add((E) "7");  // end=2
+        fifo.add((E) "5"); // end=0
+        fifo.add((E) "6"); // end=1
+        fifo.add((E) "7"); // end=2
 
         assertEquals("[3, 4, 5, 6, 7]", fifo.toString());
 
-        fifo.remove("6");  // remove element at position zero in array
+        fifo.remove("6"); // remove element at position zero in array
         assertEquals("[3, 4, 5, 7]", fifo.toString());
     }
 
@@ -356,13 +359,13 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         fifo.add((E) "2");
         fifo.add((E) "3");
         fifo.add((E) "4");
-        fifo.add((E) "5");  // end=0
-        fifo.add((E) "6");  // end=1
-        fifo.add((E) "7");  // end=2
+        fifo.add((E) "5"); // end=0
+        fifo.add((E) "6"); // end=1
+        fifo.add((E) "7"); // end=2
 
         assertEquals("[3, 4, 5, 6, 7]", fifo.toString());
 
-        fifo.remove("7");  // remove element at position one in array
+        fifo.remove("7"); // remove element at position one in array
         assertEquals("[3, 4, 5, 6]", fifo.toString());
     }
 
@@ -375,14 +378,14 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         fifo.add((E) "2");
         fifo.add((E) "3");
         fifo.add((E) "4");
-        fifo.add((E) "5");  // end=0
-        fifo.add((E) "6");  // end=1
-        fifo.add((E) "7");  // end=2
-        fifo.add((E) "8");  // end=3
+        fifo.add((E) "5"); // end=0
+        fifo.add((E) "6"); // end=1
+        fifo.add((E) "7"); // end=2
+        fifo.add((E) "8"); // end=3
 
         assertEquals("[4, 5, 6, 7, 8]", fifo.toString());
 
-        fifo.remove("7");  // remove element at position one in array, need to shift 8
+        fifo.remove("7"); // remove element at position one in array, need to shift 8
         assertEquals("[4, 5, 6, 8]", fifo.toString());
     }
 
@@ -395,14 +398,14 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         fifo.add((E) "2");
         fifo.add((E) "3");
         fifo.add((E) "4");
-        fifo.add((E) "5");  // end=0
-        fifo.add((E) "6");  // end=1
-        fifo.add((E) "7");  // end=2
-        fifo.add((E) "8");  // end=3
+        fifo.add((E) "5"); // end=0
+        fifo.add((E) "6"); // end=1
+        fifo.add((E) "7"); // end=2
+        fifo.add((E) "8"); // end=3
 
         assertEquals("[4, 5, 6, 7, 8]", fifo.toString());
 
-        fifo.remove("8");  // remove element at position two in array
+        fifo.remove("8"); // remove element at position two in array
         assertEquals("[4, 5, 6, 7]", fifo.toString());
     }
 
@@ -419,7 +422,7 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         new ObjectOutputStream(bos).writeObject(b);
 
         final CircularFifoQueue<E> b2 = (CircularFifoQueue<E>) new ObjectInputStream(
-            new ByteArrayInputStream(bos.toByteArray())).readObject();
+                new ByteArrayInputStream(bos.toByteArray())).readObject();
 
         assertEquals(1, b2.size());
         assertTrue(b2.contains("a"));
@@ -432,7 +435,7 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         new ObjectOutputStream(bos).writeObject(b2);
 
         final CircularFifoQueue<E> b3 = (CircularFifoQueue<E>) new ObjectInputStream(
-            new ByteArrayInputStream(bos.toByteArray())).readObject();
+                new ByteArrayInputStream(bos.toByteArray())).readObject();
 
         assertEquals(2, b3.size());
         assertTrue(b3.contains("a"));
@@ -443,17 +446,19 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
         assertTrue(b3.contains("c"));
     }
 
-//    public void testCreate() throws Exception {
-//        resetEmpty();
-//        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/CircularFifoQueue.emptyCollection.version4.obj");
-//        resetFull();
-//        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/CircularFifoQueue.fullCollection.version4.obj");
-//    }
+    // public void testCreate() throws Exception {
+    // resetEmpty();
+    // writeExternalFormToDisk((java.io.Serializable) getCollection(),
+    // "src/test/resources/data/test/CircularFifoQueue.emptyCollection.version4.obj");
+    // resetFull();
+    // writeExternalFormToDisk((java.io.Serializable) getCollection(),
+    // "src/test/resources/data/test/CircularFifoQueue.fullCollection.version4.obj");
+    // }
 
     /**
-     *  Runs through the regular verifications, but also verifies that
-     *  the buffer contains the same elements in the same sequence as the
-     *  list.
+     * Runs through the regular verifications, but also verifies that
+     * the buffer contains the same elements in the same sequence as the
+     * list.
      */
     @Override
     public void verify() {
@@ -465,6 +470,113 @@ public class CircularFifoQueueTest<E> extends AbstractQueueTest<E> {
             final Object o2 = e;
             assertEquals(o1, o2);
         }
+    }
+
+    @Test
+    public void circleFIFOCreate_IfSizeLessThanOrEqualTo0_ThrowIllegalArgumentException() {
+        // All together
+        assertThrowsExactly(IllegalArgumentException.class,
+                () -> {
+                    CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(0);
+                });
+    }
+
+    @Test
+    public void circleFIFOCreate_IfSizeIs1_CreateQueue() {
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(1);
+
+        // See if the queue was created
+        assert (q.getClass().equals(CircularFifoQueue.class));
+    }
+
+    @Test
+    public void circleFIFOCreate_IfNoSizeGiven_ThenSizeIs32() {
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<>();
+
+        assert (q.maxSize() == 32);
+    }
+
+    @Test
+    public void circleFIFOCreate_IfSizeIsGiven_ThenSizeEqualsParameter() {
+
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<>(999);
+
+        assert (q.maxSize() == 999);
+    }
+
+    @Test
+    public void circleFIFOAdd_IfQueueIsNotFull_AddElementNormally() {
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(100);
+
+        // Act
+        for (Integer i = 0; i < 100; ++i)
+            q.add(i);
+
+        // Assert
+        assert (q.peek() == 0);
+
+        for (Integer i = 0; i < 99; ++i)
+            q.remove();
+
+        assert (q.peek() == 99);
+    }
+
+    @Test
+    public void ifCircleFIFOIsFull_AndNewElementAdded_ThenRemoveYoungest() {
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(5);
+
+        // Act
+        // Fill up queue
+        for (Integer i = 0; i < 5; i++)
+            q.add(i);
+        q.add(6);
+
+        // Assert
+        assert (q.isAtFullCapacity() && q.contains(6) && !q.contains(5));
+    }
+
+    @Test
+    public void circleFIFOFullness_HasOpenSpots_ThenQueueIsNotFull() {
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(5);
+
+        // Act
+        for (Integer i = 0; i < 4; i++)
+            q.add(i);
+
+        assert (!q.isAtFullCapacity() && !q.isEmpty());
+    }
+
+    @Test
+    public void circleFIFOFullness_HasNoOpenSpots_ThenQueueIsFull() {
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(5);
+
+        // Act
+        for (Integer i = 0; i < 5; i++)
+            q.add(i);
+
+        // Assert
+        assert (q.isAtFullCapacity() && !q.isEmpty());
+    }
+
+    @Test
+    public void circleFIFOFullness_AllElementsAreRemoved_ThenQueueIsCalledEmpty() {
+        // Arrange
+        CircularFifoQueue<Integer> q = new CircularFifoQueue<Integer>(5);
+
+        // Act
+        for (Integer i = 0; i < 5; i++)
+            q.add(i);
+        assert (q.isAtFullCapacity());
+
+        for (Integer i = 0; i < 5; i++)
+            q.remove();
+
+        // Assert
+        assert (!q.isAtFullCapacity() && q.isEmpty());
     }
 
 }

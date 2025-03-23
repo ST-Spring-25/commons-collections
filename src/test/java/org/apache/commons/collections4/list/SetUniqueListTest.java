@@ -64,23 +64,23 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
     public E[] getFullNonNullElements() {
         // override to avoid duplicate "One"
         return (E[]) new Object[] {
-            StringUtils.EMPTY,
-            "One",
-            Integer.valueOf(2),
-            "Three",
-            Integer.valueOf(4),
-            Double.valueOf(5),
-            Float.valueOf(6),
-            "Seven",
-            "Eight",
-            "Nine",
-            Integer.valueOf(10),
-            Short.valueOf((short) 11),
-            Long.valueOf(12),
-            "Thirteen",
-            "14",
-            "15",
-            Byte.valueOf((byte) 16)
+                StringUtils.EMPTY,
+                "One",
+                Integer.valueOf(2),
+                "Three",
+                Integer.valueOf(4),
+                Double.valueOf(5),
+                Float.valueOf(6),
+                "Seven",
+                "Eight",
+                "Nine",
+                Integer.valueOf(10),
+                Short.valueOf((short) 11),
+                Long.valueOf(12),
+                "Thirteen",
+                "14",
+                "15",
+                Byte.valueOf((byte) 16)
         };
     }
 
@@ -111,7 +111,7 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
         final SetUniqueList<E> lset = new SetUniqueList<>(new ArrayList<>(), new HashSet<>());
 
         lset.addAll(
-            Arrays.asList((E[]) new Integer[] { Integer.valueOf(1), Integer.valueOf(1)}));
+                Arrays.asList((E[]) new Integer[] { Integer.valueOf(1), Integer.valueOf(1) }));
 
         assertEquals(1, lset.size(), "Duplicate element was added.");
     }
@@ -156,6 +156,7 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
             extraVerify = true;
         }
     }
+
     @Test
     public void testCollections304() {
         final List<String> list = new LinkedList<>();
@@ -254,7 +255,8 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
         final List<String> list = new ArrayList<>();
         list.add("One");
         list.add("Two");
-        @SuppressWarnings("rawtypes") final SetUniqueList setUniqueList = (SetUniqueList) makeObject();
+        @SuppressWarnings("rawtypes")
+        final SetUniqueList setUniqueList = (SetUniqueList) makeObject();
 
         // Standard case with HashSet
         final Set<String> setBasedOnList = setUniqueList.createSetBasedOnList(new HashSet<>(), list);
@@ -267,7 +269,8 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
         list.forEach(item -> assertTrue(setBasedOnList1.contains(item)));
 
         // throws internally NoSuchMethodException --> results in HashSet
-        final Set<String> setBasedOnList2 = setUniqueList.createSetBasedOnList(UnmodifiableSet.unmodifiableSet(new HashSet<>()), list);
+        final Set<String> setBasedOnList2 = setUniqueList
+                .createSetBasedOnList(UnmodifiableSet.unmodifiableSet(new HashSet<>()), list);
         assertEquals(list.size(), setBasedOnList2.size());
         list.forEach(item -> assertTrue(setBasedOnList2.contains(item)));
 
@@ -346,14 +349,14 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
         final List<E> list1 = getCollection();
         final List<E> list2 = getConfirmed();
 
-        final E[] elements = getOtherElements();  // changed here
+        final E[] elements = getOtherElements(); // changed here
         ListIterator<E> iter1 = list1.listIterator();
         ListIterator<E> iter2 = list2.listIterator();
 
         for (final E element : elements) {
             iter1.add(element);
             iter2.add(element);
-            super.verify();  // changed here
+            super.verify(); // changed here
         }
 
         resetFull();
@@ -364,7 +367,7 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
             iter2.next();
             iter1.add(element);
             iter2.add(element);
-            super.verify();  // changed here
+            super.verify(); // changed here
         }
     }
 
@@ -391,7 +394,7 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
 
         getCollection().set(2, (E) Long.valueOf(1000));
         assertEquals(size - 1, getCollection().size());
-        assertEquals(Long.valueOf(1000), getCollection().get(1));  // set into 2, but shifted down to 1
+        assertEquals(Long.valueOf(1000), getCollection().get(1)); // set into 2, but shifted down to 1
     }
 
     @Test
@@ -502,6 +505,7 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
         assertTrue(lset.contains(obj1));
         assertTrue(lset.contains(obj2));
     }
+
     @Test
     @SuppressWarnings("unchecked")
     public void testSetDownwardsInList() {
@@ -664,6 +668,133 @@ public class SetUniqueListTest<E> extends AbstractListTest<E> {
 
             getCollection().remove(size);
         }
+    }
+
+    @Test
+    public void setUniqueListAdd_IfDoesNotExistInList_ThenAddElement() {
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+                new ArrayList<Integer>() {
+                    {
+                        add(1);
+                        add(2);
+                        add(3);
+                        add(4);
+                        add(5);
+                    }
+                });
+
+        // Act
+        sul.add(6);
+        // Assert
+        assert (sul.contains(6) && sul.size() == 6);
+    }
+
+    @Test
+    public void setUniqueListAdd_IfExistsInList_ThenThrowException() {
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+                new ArrayList<Integer>() {
+                    {
+                        add(1);
+                        add(2);
+                        add(3);
+                        add(4);
+                        add(5);
+                    }
+                });
+        ArrayList<Integer> compare = new ArrayList<Integer>();
+
+        // Act
+        compare.addAll(sul);
+        sul.add(5);
+
+        // Assert
+        assert (sul.equals(compare));
+    }
+
+    @Test
+    public void setUniqueListAddAll_IfAllCollectionDoesNotExistInList_AddAll() {
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+                new ArrayList<Integer>() {
+                    {
+                        add(1);
+                        add(2);
+                        add(3);
+                        add(4);
+                        add(5);
+                    }
+                });
+        ArrayList<Integer> toAdd = new ArrayList<Integer>() {
+            {
+                add(100);
+                add(99);
+                add(98);
+            }
+        };
+
+        // Act
+        sul.addAll(toAdd);
+
+        // Assert
+        assert (sul.containsAll(toAdd));
+    }
+
+    @Test
+    public void setUniqueListAddAll_IfPartOfCollectionExistsInList_ThenIgnoreAlreadyAdded() {
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+                new ArrayList<Integer>() {
+                    {
+                        add(1);
+                        add(2);
+                        add(3);
+                        add(4);
+                        add(5);
+                    }
+                });
+        ArrayList<Integer> toAdd = new ArrayList<Integer>() {
+            {
+                add(100);
+                add(4);
+                add(98);
+            }
+        };
+
+        // Act
+        sul.addAll(toAdd);
+
+        // Assert
+        assert (sul.containsAll(toAdd) && sul.size() == 7);
+    }
+
+    @Test
+    public void setUniqueListAddAll_IfCollectionExistsInList_ThenIgnoreAll() {
+        // Arrange
+        SetUniqueList<Integer> sul = SetUniqueList.setUniqueList(
+                new ArrayList<Integer>() {
+                    {
+                        add(1);
+                        add(2);
+                        add(3);
+                        add(4);
+                        add(5);
+                    }
+                });
+        ArrayList<Integer> toAdd = new ArrayList<Integer>() {
+            {
+                add(5);
+                add(4);
+                add(1);
+            }
+        };
+
+        // Act
+        sul.addAll(toAdd);
+
+        // Assert
+        assert (sul.containsAll(toAdd) && sul.size() == 5);
     }
 
 }
