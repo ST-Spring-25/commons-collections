@@ -18,6 +18,7 @@ package org.apache.commons.collections4.map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -237,6 +238,45 @@ public class SingletonMapTest<K, V> extends AbstractOrderedMapTest<K, V> {
 
         // Assert
         assert(!singleton.equals(obj));
+    }
+
+    @Test
+    public void singletonMapCreation_IfNoParametersArePassed_ThenKeyAndValueAreNull(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>();
+
+        // Assert
+        assert(singleton.getKey() == null && singleton.getValue() == null);
+    }
+
+    @Test
+    public void singletonMapCreation_IfKeyIsGivenAndThenValueChanged_Valid(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", null);
+
+        // Act
+        singleton.put("key", 1);
+
+        // Assert
+        assert(singleton.get("key") == 1);
+    }
+
+    @Test
+    public void singletonMapCreation_IfNewKeyValuePassed_ThrowException(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>();
+
+        // Assert
+        assertThrowsExactly(IllegalArgumentException.class, () -> {singleton.put("key", 1);});
+    }
+
+    @Test
+    public void singletonMapCreation_IfNewKeyPassed_ThrowException(){
+        // Arrange
+        SingletonMap<String, Integer> singleton = new SingletonMap<String, Integer>("key", 1);
+
+        // Assert
+        assertThrowsExactly(IllegalArgumentException.class, () -> {singleton.put("new key", null);});
     }
 
 }
