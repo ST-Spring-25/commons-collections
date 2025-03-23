@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -277,5 +278,62 @@ public class ListOrderedSetTest<E>
 //        resetFull();
 //        writeExternalFormToDisk((java.io.Serializable) getCollection(), "src/test/resources/data/test/ListOrderedSet.fullCollection.version4.obj");
 //    }
+
+    @Test
+    public void listOrderedSetCreation_IfSetAndListAreEmpty_ThenCreateListOrderedSet(){
+        // Arrange
+        List<Integer> l = new ArrayList<Integer>();
+        Set<Integer> s = new HashSet<Integer>();
+
+        // Act
+        ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);
+
+        // Assert
+        assert(los.isEmpty() && los.getClass().equals(ListOrderedSet.class));
+    }
+
+    @Test
+    public void listOrderedSetCreation_IfSetIsNull_ThenThrowException(){
+        // Arrange
+        List<Integer> l = new ArrayList<Integer>();
+        Set<Integer> s = null;
+
+        // Assert
+        assertThrowsExactly(NullPointerException.class, 
+        () -> {ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);});
+    }
+
+    @Test
+    public void listOrderedSetCreation_IfListIsNull_ThenThrowException(){
+        // Arrange
+        List<Integer> l = null;
+        Set<Integer> s = new HashSet<Integer>();
+
+        // Assert
+        assertThrowsExactly(NullPointerException.class, 
+        () -> {ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);});
+    }
+
+    @Test
+    public void listOrderedSetCreation_IfSetHasContents_ThenThrowException(){
+        // Arrange
+        List<Integer> l = new ArrayList<Integer>();
+        Set<Integer> s = new HashSet<Integer>(){{add(99);}};
+
+        // Assert
+        assertThrowsExactly(IllegalArgumentException.class, 
+        () -> {ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);});
+    }
+
+    @Test
+    public void listOrderedSetCreation_IfListHasContents_ThenThrowException(){
+        // Arrange
+        List<Integer> l = new ArrayList<Integer>(){{add(99);}};
+        Set<Integer> s = new HashSet<Integer>();
+
+        // Assert
+        assertThrowsExactly(IllegalArgumentException.class, 
+        () -> {ListOrderedSet<Integer> los = ListOrderedSet.listOrderedSet(s, l);});
+    }
 
 }
