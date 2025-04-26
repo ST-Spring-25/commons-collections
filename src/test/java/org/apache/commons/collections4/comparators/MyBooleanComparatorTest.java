@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class MyBooleanComparatorTest {
     
     // Technique: Paramaterized Test with @CsvSource
-    @Test
     @DisplayName("Test BooleanComparator compare")
     @ParameterizedTest
     @CsvSource({
